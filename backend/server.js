@@ -6,7 +6,8 @@ import { Server } from "socket.io";
 
 dotenv.config();
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
+
 
 // Create HTTP Server
 const server = http.createServer(app);
@@ -37,6 +38,8 @@ testConnection()
 .then((conn)=>{
   server.listen(process.env.PORT , ()=>{
     console.log(`app is up and running on port ${process.env.PORT}`);
+    
+console.log("Starting Svayam Expense Tracker Backend...", process.env.PORT , process.env.JWT_SECRET);
 })
 })
 .catch((err)=>console.log(err));

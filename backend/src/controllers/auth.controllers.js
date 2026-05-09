@@ -1,8 +1,14 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 import { pool } from '../db/index.js'; // Pool connection from your db config
 import { sendEmailOTP } from '../utils/emailService.js';
 import { getOTPExpiry, otp } from '../utils/otp.js';
+dotenv.config({
+    path: './.env'
+}); // Load .env variables
+
+
 
 /**
  * FUNCTION 1: Generate & Send Email OTP
@@ -94,6 +100,7 @@ export const register = async (req, res) => {
  */
 export const login = async (req, res) => {
     const { email, mobile_no , password } = req.body;
+    
 
     try {
         const rows = await pool.query(
@@ -107,6 +114,8 @@ export const login = async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(401).json({ message: "Incorrect password." });
 
+
+         console.log("JWT_SECRET from .env:", process.env.JWT_SECRET); // Debugging line
         const token = jwt.sign(
             { id: user.id, role: user.role }, 
             process.env.JWT_SECRET, 

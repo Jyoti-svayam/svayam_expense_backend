@@ -3,6 +3,7 @@ import { testConnection , pool } from "./src/db/index.js";
 import dotenv from "dotenv";
 import http from "http";
 import { Server } from "socket.io";
+import { startBudgetCronJob } from "./src/utils/budgetCron.js";
 
 dotenv.config();
 
@@ -40,6 +41,7 @@ testConnection()
     console.log(`app is up and running on port ${process.env.PORT}`);
     
 console.log("Starting Svayam Expense Tracker Backend...", process.env.PORT , process.env.JWT_SECRET);
+ startBudgetCronJob();
 })
 })
 .catch((err)=>console.log(err));
